@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Mohammed Tahiri</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        dark: '#0f172a',
+                        darker: '#020617',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Animation util */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- DONNÉES UTILISATEUR ---
+        const USER_DATA = {
+            name: "Mohammed Tahiri",
+            email: "mohamadtahiri100@gmail.com",
+            phone: "0645757016",
+            linkedin: "https://www.linkedin.com/in/mohamed-tahiri-5b6a812ba",
+            github: "https://github.com/Tahirimohammed",
+            skills: [
+                { name: "HTML5/CSS3", icon: "fab fa-html5", color: "text-orange-500", detail: "Maîtrise des standards web et de Tailwind CSS." },
+                { name: "JavaScript", icon: "fab fa-js", color: "text-yellow-400", detail: "Développement d'applications interactives et dynamiques." },
+                { name: "Python", icon: "fab fa-python", color: "text-blue-500", detail: "Langage principal pour le développement et la Data Science." },
+                { name: "C/C++", icon: "fas fa-terminal", color: "text-blue-700", detail: "Programmation C pour les structures de données et C++ (POO)." },
+                { name: "Machine Learning", icon: "fas fa-brain", color: "text-purple-600", detail: "TensorFlow, NumPy, Pandas, Scikit-learn." },
+                { name: "Bases de Données", icon: "fas fa-database", color: "text-green-600", detail: "SQL, NoSQL, MongoDB, Hadoop." },
+                { name: "DevOps/Outils", icon: "fas fa-tools", color: "text-slate-500", detail: "Docker, Linux Pro, Git, GitHub, VS Code." },
+            ],
+            experience: [
+                {
+                    title: "Piscine - École 1337",
+                    company: "1337 (42 Network)",
+                    date: "1 Mois Intense",
+                    desc: "Formation intensive d'un mois (La Piscine) centrée sur l'apprentissage par les pairs, la gestion de projet et la programmation en C, développant rigueur et autonomie."
+                },
+                {
+                    title: "Développement Personnel",
+                    company: "Projets et Autoformation",
+                    date: "En cours",
+                    desc: "Application continue des compétences en Machine Learning (TensorFlow, Scikit-learn) et approfondissement en DevSecOps (Docker, Linux)."
+                }
+            ]
+        };
+
+        // --- COMPOSANTS ---
+
+        // 1. Navigation Bar
+        const Navbar = ({ darkMode, toggleDarkMode }) => {
+            const [isOpen, setIsOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const navLinks = [
+                { name: "Accueil", href: "#home" },
+                { name: "À Propos", href: "#about" },
+                { name: "Compétences", href: "#skills" },
+                { name: "Projets", href: "#projects" },
+                { name: "Contact", href: "#contact" },
+            ];
+
+            return (
+                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-darker/90 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'}`}>
+                    <div className="container mx-auto px-6 flex justify-between items-center">
+                        <a href="#" className="text-2xl font-bold text-primary">
+                            <i className="fas fa-code mr-2"></i>Mon<span className="text-slate-800 dark:text-white">portfolio</span>
+                        </a>
+
+                        {/* Desktop Menu */}
+                        <div className="hidden md:flex items-center space-x-8">
+                            {navLinks.map(link => (
+                                <a key={link.name} href={link.href} className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary font-medium transition-colors">
+                                    {link.name}
+                                </a>
+                            ))}
+                            <button 
+                                onClick={toggleDarkMode} 
+                                className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-yellow-400 transition-colors"
+                            >
+                                <i className={`fas ${darkMode ? 'fa-sun' : 'fa-moon'}`}></i>
+                            </button>
+                        </div>
+
+                        {/* Mobile Toggle */}
+                        <div className="md:hidden flex items-center">
+                            <button onClick={toggleDarkMode} className="mr-4 text-slate-800 dark:text-yellow-400">
+                                <i className={`fas ${darkMode ? 'fa-sun' : 'fa-moon'}`}></i>
+                            </button>
+                            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-800 dark:text-white text-2xl">
+                                <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'}`}></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Mobile Menu */}
+                    {isOpen && (
+                        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-darker shadow-lg py-4 px-6 flex flex-col space-y-4 border-t border-slate-100 dark:border-slate-800">
+                            {navLinks.map(link => (
+                                <a 
+                                    key={link.name} 
+                                    href={link.href} 
+                                    className="text-slate-600 dark:text-slate-300 hover:text-primary font-medium"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    {link.name}
+                                </a>
+                            ))}
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        // 2. Hero Section
+        const Hero = () => {
+            return (
+                <section id="home" className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+                    {/* Background decoration */}
+                    <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/10 blur-3xl rounded-full -z-10"></div>
+                    <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-purple-500/10 blur-3xl rounded-full -z-10"></div>
+
+                    <div className="container mx-auto px-6 flex flex-col-reverse lg:flex-row items-center">
+                        <div className="lg:w-1/2 mt-10 lg:mt-0 fade-in-up">
+                            <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-primary uppercase bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                                Développeur C/C++, Python, ML
+                            </div>
+                            <h1 className="text-4xl lg:text-6xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">Construire et Optimiser</span> l'intelligence des données
+                            </h1>
+                            <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-lg leading-relaxed">
+                                Bonjour, je suis <strong className="text-slate-800 dark:text-slate-200">{USER_DATA.name}</strong>. Passionné par la Data Science, l'apprentissage machine (TensorFlow) et la programmation système (C/C++), avec une solide base en développement web (HTML/CSS/JS).
+                            </p>
+                            <div className="flex flex-wrap gap-4">
+                                <a href="#skills" className="px-8 py-3 bg-primary hover:bg-blue-600 text-white rounded-lg font-semibold shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-1">
+                                    Voir mes compétences
+                                </a>
+                                <a href="#contact" className="px-8 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white rounded-lg font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+                                    Me Contacter
+                                </a>
+                            </div>
+                            
+                            <div className="mt-10 flex items-center gap-6 text-slate-500 dark:text-slate-400">
+                                <a href={USER_DATA.github} target="_blank" className="hover:text-primary text-2xl transition-colors" aria-label="GitHub Profile"><i className="fab fa-github"></i></a>
+                                <a href={USER_DATA.linkedin} target="_blank" className="hover:text-primary text-2xl transition-colors" aria-label="LinkedIn Profile"><i className="fab fa-linkedin"></i></a>
+                                <a href={`mailto:${USER_DATA.email}`} className="hover:text-primary text-2xl transition-colors" aria-label="Email"><i className="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div className="lg:w-1/2 flex justify-center relative">
+                            <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-primary to-purple-600 rounded-full animate-pulse opacity-20 blur-xl"></div>
+                                <img 
+                                    src="https://media.licdn.com/dms/image/v2/D4D03AQG53tgRVFaysA/profile-displayphoto-scale_400_400/B4DZq8NE2FGgAg-/0/1764094139956?e=1766016000&v=beta&t=WYHI1HpP1_5gDs_m-6Y3ict4U9CxiD0gG3NEpkLplk8&auto=format&fit=crop&w=800&q=80"
+                                    alt="Profile" 
+                                    className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-slate-800 shadow-2xl"
+                                    onerror="this.onerror=null;this.src="
+                                />
+                                <div className="absolute -bottom-4 -right-4 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg flex items-center gap-3 animate-bounce">
+                                    <div className="bg-green-100 p-2 rounded-full text-green-600">
+                                        <i className="fas fa-microchip"></i>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">Domaines</p>
+                                        <p className="font-bold text-slate-800 dark:text-white">Data & Système</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 3. Skills Section
+        const Skills = () => {
+            const skills = USER_DATA.skills;
+
+            return (
+                <section id="skills" className="py-20 bg-slate-50 dark:bg-darker/50">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Mes Compétences Techniques</h2>
+                            <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {skills.map((skill, idx) => (
+                                <div key={idx} className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 hover:shadow-primary/20 transition-all flex flex-col items-start group">
+                                    <div className={`text-3xl mb-3 ${skill.color}`}>
+                                        <i className={skill.icon}></i>
+                                    </div>
+                                    <h3 className="font-bold text-slate-800 dark:text-white mb-1">{skill.name}</h3>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">{skill.detail}</p>
+                                </div>
+                            ))}
+                        </div>
+                        
+                        <div className="mt-16 text-center bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Compétences Linguistiques</h3>
+                            <p className="text-slate-600 dark:text-slate-400">
+                                Anglais : <span className="font-semibold text-primary">B2 (Intermédiaire Supérieur)</span> | 
+                                Français : <span className="font-semibold text-primary">B2 (Intermédiaire Supérieur)</span>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 4. Experience Timeline (Resume)
+        const Experience = () => {
+            const jobs = USER_DATA.experience;
+
+            return (
+                <section id="about" className="py-20 bg-white dark:bg-dark">
+                    <div className="container mx-auto px-6">
+                        <div className="grid md:grid-cols-2 gap-12">
+                            <div>
+                                <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">À Propos de Mohammed</h2>
+                                <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                                    Mon parcours est axé sur la rigueur de la programmation système (C/C++) et la puissance de la Data Science (Python, ML/TensorFlow). L'expérience à l'école 1337 a renforcé mon approche d'apprentissage autonome et collaboratif, me préparant à relever des défis techniques complexes. Je suis bilingue Français/Anglais (B2) et j'utilise des outils modernes comme Docker et Linux pour garantir des environnements de travail professionnels.
+                                </p>
+                                
+                                <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg flex items-center gap-4">
+                                    <i className="fas fa-phone-alt text-primary text-2xl"></i>
+                                    <div>
+                                        <p className="text-sm text-slate-500 dark:text-slate-400">Téléphone</p>
+                                        <a href={`tel:${USER_DATA.phone}`} className="font-semibold text-slate-800 dark:text-white hover:text-primary transition-colors">{USER_DATA.phone}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-8 border-l-2 border-slate-200 dark:border-slate-700 ml-4 pl-8 relative">
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white -mt-2">Mon Parcours & Formation</h3>
+                                {jobs.map((job, idx) => (
+                                    <div key={idx} className="relative">
+                                        <div className="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-primary border-4 border-white dark:border-dark"></div>
+                                        <span className="text-sm text-primary font-semibold tracking-wide">{job.date}</span>
+                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-1">{job.title}</h3>
+                                        <span className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-2 block">{job.company}</span>
+                                        <p className="text-slate-600 dark:text-slate-400 text-sm mt-2">{job.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 5. Projects Section (Keeping placeholders for now)
+        const Projects = () => {
+            const projects = [
+                {
+                    title: "Projet de Classification ML",
+                    category: "Python / Scikit-learn",
+                    img: "https://epg.ma/Formation/img/pyt.jpg",
+                    link: USER_DATA.github
+                },
+                {
+                    title: "Mini Shell Unix (C)",
+                    category: "C / Linux Pro",
+                    img: "https://epg.ma/Formation/img/pyt.jpg",
+                    link: USER_DATA.github
+                },
+                {
+                    title: "Application Web Fullstack",
+                    category: "HTML/CSS/JS / MongoDB",
+                    img: "https://codingbytes.com/wp-content/uploads/2022/03/full-stack-web-development.jpg",
+                    link: USER_DATA.github
+                }
+            ];
+
+            return (
+                <section id="projects" className="py-20 bg-slate-50 dark:bg-darker/50">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Projets et Réalisations</h2>
+                            <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
+                                Retrouvez le code de mes projets Data, Système et Web sur mon profil GitHub.
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {projects.map((project, idx) => (
+                                <div key={idx} className="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                                    <div className="relative h-48 overflow-hidden">
+                                        <img src={project.img} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <a href={project.link} target="_blank" className="p-3 bg-white rounded-full text-primary hover:bg-primary hover:text-white transition-colors" aria-label={`View ${project.title} on GitHub`}>
+                                                <i className="fab fa-github"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="p-6">
+                                        <span className="text-xs font-bold text-primary uppercase tracking-wider">{project.category}</span>
+                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-2 mb-3">{project.title}</h3>
+                                        <a href={project.link} target="_blank" className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary transition-colors flex items-center gap-1">
+                                            Voir sur GitHub <i className="fas fa-arrow-right text-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 6. Contact Section
+        const Contact = () => {
+            return (
+                <section id="contact" className="py-20 bg-white dark:bg-dark">
+                    <div className="container mx-auto px-6 max-w-4xl">
+                        <div className="bg-primary rounded-2xl p-8 md:p-12 shadow-2xl text-center text-white relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-full h-full bg-pattern opacity-10"></div>
+                            
+                            <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">Intéressé par mon profil ?</h2>
+                            <p className="text-blue-100 mb-8 text-lg relative z-10">
+                                Contactez-moi directement par email ou téléphone :
+                                <br/><strong className="text-white">{USER_DATA.email}</strong> ou <strong className="text-white">{USER_DATA.phone}</strong>
+                            </p>
+                            
+                            <div className="flex flex-col md:flex-row justify-center items-center gap-6 relative z-10">
+                                <a href="https://mail.google.com/mail/u/0/#inbox/FMfcgzQcqbdlTLgKJjfpjRRMbxtXCgzg?compose=CllgCJfnbRbMnMLcftMtdvdnVpRffDhKxSCvMPjvhJLffpFMXWBmNctScbmJPMdkcwZGcngNrLV" className="bg-white text-primary px-8 py-4 rounded-lg font-bold hover:bg-blue-50 transition-colors shadow-lg flex items-center gap-2">
+                                    <i className="fas fa-envelope"></i> Envoyer un email
+                                </a>
+                                <div className="flex gap-4">
+                                    <a href={USER_DATA.linkedin} target="_blank" className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors border border-blue-400" aria-label="LinkedIn">
+                                        <i className="fab fa-linkedin-in text-xl"></i>
+                                    </a>
+                                    <a href={USER_DATA.github} target="_blank" className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors border border-blue-400" aria-label="GitHub">
+                                        <i className="fab fa-github text-xl"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );      
+        };
+
+        // 7. Footer
+        const Footer = () => {
+            return (
+                <footer className="bg-slate-50 dark:bg-darker py-8 border-t border-slate-200 dark:border-slate-800">
+                    <div className="container mx-auto px-6 text-center">
+                        <p className="text-slate-600 dark:text-slate-400">
+                            © {new Date().getFullYear()} {USER_DATA.name}.
+                        </p>
+                    </div>
+                </footer>
+            );
+        };
+
+        // --- APP PRINCIPALE ---
+        const App = () => {
+            const [darkMode, setDarkMode] = useState(false);
+
+            // Check system preference or previous setting on load
+            useEffect(() => {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    setDarkMode(true);
+                }
+            }, []);
+
+            // Toggle class on HTML element
+            useEffect(() => {
+                if (darkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }, [darkMode]);
+
+            const toggleDarkMode = () => setDarkMode(!darkMode);
+
+            return (
+                <div className="bg-white dark:bg-dark transition-colors duration-300 min-h-screen">
+                    <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+                    <Hero />
+                    <Skills />
+                    <Experience />
+                    <Projects />
+                    <Contact />
+                    <Footer />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
