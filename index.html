@@ -1,990 +1,974 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio - Amal Laknifed</title>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Portfolio - Mohammed Tahiri</title>
  
-  <!-- React -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+ <!-- React & ReactDOM -->
+ <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+ <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
  
-  <!-- Babel (JSX in browser) -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+ <!-- Babel for JSX -->
+ <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
  
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+ <!-- Tailwind CSS -->
+ <script src="https://cdn.tailwindcss.com"></script>
  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+ <!-- Font Awesome -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
  
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+ <!-- Google Fonts -->
+ <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet"/>
  
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          fontFamily: { sans: ["Outfit", "sans-serif"] },
-          colors: {
-            primary: "#22c55e",
-            dark: "#0f172a",
-            darker: "#020617",
-          },
-          boxShadow: {
-            glow: "0 0 0 1px rgba(34,197,94,.25), 0 12px 30px rgba(34,197,94,.20)",
-          },
-        },
-      },
-    };
-  </script>
+ <script>
+   tailwind.config = {
+     darkMode: "class",
+     theme: {
+       extend: {
+         fontFamily: { sans: ["Outfit", "sans-serif"] },
+         colors: {
+           primary: "#3b82f6",
+           dark: "#0f172a",
+           darker: "#020617",
+         },
+         boxShadow: {
+           glow: "0 0 0 1px rgba(59,130,246,.25), 0 12px 30px rgba(59,130,246,.20)",
+         },
+       },
+     },
+   };
+ </script>
  
-  <style>
-    html { scroll-behavior: smooth; }
-    ::-webkit-scrollbar { width: 9px; }
-    ::-webkit-scrollbar-track { background: #f1f5f9; }
-    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
-    .fade-in-up { animation: fadeInUp .85s ease-out both; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-    .floaty { animation: floaty 4s ease-in-out infinite; }
-    @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    .glass { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-  </style>
+ <style>
+   html { scroll-behavior: smooth; }
+   ::-webkit-scrollbar { width: 9px; }
+   ::-webkit-scrollbar-track { background: #f1f5f9; }
+   ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 999px; }
+   ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+ 
+   .fade-in-up { animation: fadeInUp .85s ease-out both; }
+   @keyframes fadeInUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+ 
+   .floaty { animation: floaty 4s ease-in-out infinite; }
+   @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+ 
+   .glass { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+ </style>
 </head>
  
 <body class="bg-white text-slate-900">
-  <div id="root"></div>
- 
-  <script type="text/babel">
-    const { useEffect, useMemo, useRef, useState } = React;
- 
-    // =======================
-    //   Amal - DATA
-    // =======================
-    const USER = {
-      name: "Amal Laknifed",
-      title: "Développeuse Web & Mobile (En formation)",
-      location: "Khouribga, Maroc",
-      email: "laknifedamel@gmail.com",
-      phone: "+212 720060667",
-      github: "https://github.com/Armanoi",
-      linkedin: "", // Coming soon
-      resumeLink: "AMALCV1.pdf",
-      avatar: "MeCV.jpg",
- 
-      headline:
-        "Je conçois des applications Web & Mobile modernes, simples et efficaces.",
- 
-      about:
-        "Étudiante en ingénierie logiciel (Web & Mobile) et diplômée en Développement Digital (option Applications Mobiles). Passionnée par l’analyse, la conception et le design UI/UX, je développe des solutions centrées utilisateur avec des architectures propres (MVVM) et des intégrations API fiables. Actuellement, je recherche un stage ou une opportunité professionnelle.",
- 
-      highlights: [
-        "Disponible pour stage / emploi",
-        "UI/UX & Design (interfaces claires)",
-        "Mobile: Flutter, Android Kotlin",
-        "Web: Laravel, PHP, JS (en cours)",
-      ],
- 
-      // Services en 2 axes : Mobile + Web
-      services: [
-        {
-          icon: "fa-mobile-screen",
-          title: "Développement Mobile",
-          desc: "Applications Flutter et Android (Kotlin) avec une expérience utilisateur fluide.",
-          bullets: ["Interfaces modernes", "Multilingue", "Cartographie (Maps)"]
-        },
-        {
-          icon: "fa-diagram-project",
-          title: "Architecture & Qualité",
-          desc: "Organisation du projet, bonnes pratiques et code maintenable.",
-          bullets: ["MVVM", "Séparation des couches", "Tests & validation"]
-        },
-        {
-          icon: "fa-globe",
-          title: "Développement Web (En cours)",
-          desc: "Création et analyse d'applications web avec des stacks modernes.",
-          bullets: ["Laravel / PHP", "HTML/CSS/Bootstrap", "NoSQL (bases)"]
-        }
-      ],
- 
-      // Skills (Mobile + Web)
-      skills: [
-        { name: "Flutter & Dart", icon: "fa-brands fa-flutter", color: "text-sky-500", level: 82, tag: "Mobile" },
-        { name: "Android (Kotlin / Java)", icon: "fa-brands fa-android", color: "text-green-500", level: 78, tag: "Mobile" },
-        { name: "MVVM", icon: "fa-solid fa-layer-group", color: "text-emerald-600", level: 74, tag: "Mobile" },
-        { name: "API REST (Retrofit / Volley)", icon: "fa-solid fa-cloud", color: "text-teal-600", level: 76, tag: "Mobile" },
-        { name: "SQLite / Room", icon: "fa-solid fa-database", color: "text-lime-600", level: 73, tag: "Mobile" },
-        { name: "Firebase (Auth / DB)", icon: "fa-solid fa-fire", color: "text-orange-500", level: 70, tag: "Mobile" },
-        { name: "Google Maps API", icon: "fa-solid fa-map-location-dot", color: "text-emerald-700", level: 68, tag: "Mobile" },
- 
-        { name: "HTML5 / CSS3", icon: "fa-brands fa-html5", color: "text-orange-500", level: 65, tag: "Web" },
-        { name: "JavaScript (En cours)", icon: "fa-brands fa-js", color: "text-yellow-400", level: 60, tag: "Web" },
-        { name: "Bootstrap", icon: "fa-brands fa-bootstrap", color: "text-purple-600", level: 62, tag: "Web" },
-        { name: "PHP (En cours)", icon: "fa-brands fa-php", color: "text-indigo-600", level: 58, tag: "Web" },
-        { name: "Laravel (En cours)", icon: "fa-brands fa-laravel", color: "text-red-500", level: 55, tag: "Web" },
-        { name: "Python (Bases)", icon: "fa-brands fa-python", color: "text-blue-500", level: 58, tag: "Web" },
-        { name: "NoSQL (Bases)", icon: "fa-solid fa-server", color: "text-slate-600 dark:text-slate-200", level: 50, tag: "Web" },
- 
-        { name: "Git / GitHub", icon: "fa-brands fa-github", color: "text-slate-700 dark:text-slate-200", level: 68, tag: "Outils" },
-        { name: "Analyse & UI/UX", icon: "fa-solid fa-pen-ruler", color: "text-pink-500", level: 72, tag: "Design" },
-      ],
- 
-      timeline: [
-        {
-          date: "2023 – 2025",
-          title: "Diplôme Développement Digital (Bac+2)",
-          place: "ISGI Khouribga — Option Applications Mobiles (Mention Bien)",
-          desc: "Développement mobile, bases de données, API, UI/UX et Git/GitHub.",
-          tags: ["Mobile", "Android", "Flutter", "SQL"]
-        },
-        {
-          date: "En cours",
-          title: "Licence / 3ème année",
-          place: "ENSA Khouribga — Ingénierie Logiciel Web & Mobile",
-          desc: "Approfondissement en ingénierie logiciel, analyse et conception web & mobile.",
-          tags: ["Web", "Mobile", "Conception"]
-        },
-        {
-          date: "Stage 1 mois",
-          title: "Stage d’initiation — OCP Khouribga (Service Informatique)",
-          place: "Application mobile de gestion d’incidents",
-          desc: "Conception et développement d'une application (Kotlin) avec base de données et UI moderne.",
-          tags: ["Kotlin", "SQLite", "Organisation"]
-        }
-      ],
- 
-      projects: [
-        {
-          id: "p1",
-          title: "Application de Gestion des Incidents (OCP)",
-          category: "Android",
-          stack: ["Kotlin", "SQLite", "MVVM", "UI moderne"],
-          image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
-          desc: "Application mobile pour déclarer et suivre des incidents avec une base de données locale et une interface soignée.",
-          links: { github: "", demo: "" },
-          bullets: ["CRUD incidents", "Stockage local", "Interface moderne", "Organisation MVVM"],
-          featured: true
-        },
-        {
-          id: "p2",
-          title: "Application de Livraison Locale",
-          category: "Flutter",
-          stack: ["Flutter", "Firebase", "Google Maps", "Multilingue"],
-          image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80",
-          desc: "Application de livraison avec suivi en temps réel (Maps), options de paiement et rôles client/livreur.",
-          links: { github: "", demo: "" },
-          bullets: ["Maps tracking", "Multilingue", "UI responsive", "Flux de commande"],
-          featured: true
-        },
-        {
-          id: "p3",
-          title: "Room CRUD (TP)",
-          category: "Android",
-          stack: ["Kotlin", "Room", "RecyclerView", "Coroutines"],
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
-          desc: "TP CRUD complet avec Room, RecyclerView et une architecture claire.",
-          links: { github: "", demo: "" },
-          bullets: ["CRUD", "Room DB", "RecyclerView", "Bonnes pratiques"],
-          featured: false
-        },
-        {
-          id: "p4",
-          title: "Mini-projets Web (En cours)",
-          category: "Web",
-          stack: ["Laravel", "PHP", "HTML/CSS", "Bootstrap", "NoSQL (bases)"],
-          image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=80",
-          desc: "Exercices et mini-projets web en cours de construction pour renforcer le backend et le front-end.",
-          links: { github: "", demo: "" },
-          bullets: ["Laravel & PHP", "Pages responsive", "Conception & analyse", "Progression continue"],
-          featured: false
-        }
-      ],
- 
-      languages: [
-        { name: "Arabe", level: "Natif" },
-        { name: "Français", level: "Très bon" },
-        { name: "Anglais", level: "B1" },
-        { name: "Allemand", level: "A1" },
-      ],
-    };
- 
-    // =======================
-    // Helpers
-    // =======================
-    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
- 
-    const useOnClickOutside = (ref, handler) => {
-      useEffect(() => {
-        const listener = (event) => {
-          if (!ref.current || ref.current.contains(event.target)) return;
-          handler(event);
-        };
-        document.addEventListener("mousedown", listener);
-        document.addEventListener("touchstart", listener);
-        return () => {
-          document.removeEventListener("mousedown", listener);
-          document.removeEventListener("touchstart", listener);
-        };
-      }, [ref, handler]);
-    };
- 
-    const SectionTitle = ({ title, subtitle }) => (
-      <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">{title}</h2>
-        {subtitle && <p className="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{subtitle}</p>}
-        <div className="w-24 h-1.5 bg-primary mx-auto mt-6 rounded-full"></div>
-      </div>
-    );
- 
-    const Pill = ({ children }) => (
-      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
-        {children}
-      </span>
-    );
- 
-    // =======================
-    // Navbar
-    // =======================
-    const Navbar = ({ darkMode, toggleDarkMode }) => {
-      const [isOpen, setIsOpen] = useState(false);
-      const [scrolled, setScrolled] = useState(false);
- 
-      useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 30);
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-      }, []);
- 
-      const links = [
-        { name: "Accueil", href: "#home" },
-        { name: "À propos", href: "#about" },
-        { name: "Services", href: "#services" },
-        { name: "Compétences", href: "#skills" },
-        { name: "Projets", href: "#projects" },
-        { name: "Contact", href: "#contact" },
-      ];
- 
-      return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/85 dark:bg-darker/80 glass shadow-lg py-3" : "bg-transparent py-5"}`}>
-          <div className="container mx-auto px-6 flex justify-between items-center">
-            <a href="#home" className="flex items-center gap-2 font-extrabold text-xl text-primary">
-              <span className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                <i className="fas fa-code"></i>
-              </span>
-              <span className="text-slate-900 dark:text-white">Amal<span className="text-primary">Laknifed</span></span>
-            </a>
- 
-            <div className="hidden lg:flex items-center gap-7">
-              {links.map((l) => (
-                <a key={l.name} href={l.href} className="text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-primary transition-colors">
-                  {l.name}
-                </a>
-              ))}
- 
-              <a
-                href={USER.resumeLink}
-                className="text-sm font-bold px-4 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 transition"
-                title="Télécharger le CV"
-              >
-                <i className="fa-solid fa-file-arrow-down mr-2"></i>CV
-              </a>
- 
-              <button
-                onClick={toggleDarkMode}
-                className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-yellow-400 border border-slate-200 dark:border-slate-700"
-                aria-label="Toggle dark mode"
-              >
-                <i className={`fas ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
-              </button>
-            </div>
- 
-            <div className="lg:hidden flex items-center gap-3">
-              <button onClick={toggleDarkMode} className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-yellow-400">
-                <i className={`fas ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
-              </button>
-              <button onClick={() => setIsOpen((v) => !v)} className="p-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900">
-                <i className={`fas ${isOpen ? "fa-times" : "fa-bars"}`}></i>
-              </button>
-            </div>
-          </div>
- 
-          {isOpen && (
-            <div className="lg:hidden mt-3 mx-4 rounded-2xl bg-white dark:bg-darker shadow-lg border border-slate-200 dark:border-slate-800 p-4">
-              <div className="flex flex-col gap-3">
-                {links.map((l) => (
-                  <a key={l.name} href={l.href} onClick={() => setIsOpen(false)} className="px-3 py-2 rounded-xl font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
-                    {l.name}
-                  </a>
-                ))}
-                <a href={USER.resumeLink} className="px-3 py-2 rounded-xl font-bold bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-center">
-                  <i className="fa-solid fa-file-arrow-down mr-2"></i> Télécharger CV
-                </a>
-              </div>
-            </div>
-          )}
-        </nav>
-      );
-    };
- 
-    // =======================
-    // Hero
-    // =======================
-    const Hero = () => (
-      <section id="home" className="min-h-screen pt-28 pb-16 relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-[420px] h-[420px] bg-primary/15 blur-3xl rounded-full -z-10"></div>
-        <div className="absolute -bottom-24 -left-24 w-[420px] h-[420px] bg-emerald-500/15 blur-3xl rounded-full -z-10"></div>
- 
-        <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="fade-in-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/25 text-primary text-xs font-extrabold tracking-wider uppercase">
-              <i className="fa-solid fa-sparkles"></i> {USER.title}
-            </div>
- 
-            <h1 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-slate-900 dark:text-white">
-              {USER.headline.split("modernes").length > 1 ? (
-                <>
-                  Je conçois des applications <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-600">Web & Mobile</span> modernes, simples et efficaces.
-                </>
-              ) : USER.headline}
-            </h1>
- 
-            <p className="mt-6 text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
-              Bonjour, je suis <b className="text-slate-900 dark:text-white">{USER.name}</b>. {USER.about}
-            </p>
- 
-            <div className="mt-7 flex flex-wrap gap-3">
-              {USER.highlights.map((h, i) => <Pill key={i}>{h}</Pill>)}
-            </div>
- 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <a href="#projects" className="px-7 py-3 rounded-2xl bg-primary text-white font-extrabold shadow-glow hover:opacity-95 transition transform hover:-translate-y-0.5">
-                Voir mes projets <i className="fa-solid fa-arrow-right ml-2 text-xs"></i>
-              </a>
-              <a href="#contact" className="px-7 py-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-extrabold hover:bg-slate-50 dark:hover:bg-slate-700 transition">
-                Me contacter
-              </a>
-            </div>
- 
-            <div className="mt-9 flex items-center gap-3 text-slate-500 dark:text-slate-400">
-              <a href={USER.github} target="_blank" className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:text-primary hover:border-primary transition" aria-label="GitHub">
-                <i className="fab fa-github text-xl"></i>
-              </a>
- 
-              {/* LinkedIn coming soon */}
-              <button
-                type="button"
-                className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 cursor-not-allowed"
-                title="LinkedIn — Coming soon"
-                aria-label="LinkedIn coming soon"
-              >
-                <i className="fab fa-linkedin text-xl"></i>
-              </button>
- 
-              <a href={`mailto:${USER.email}`} className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:text-primary hover:border-primary transition" aria-label="Email">
-                <i className="fas fa-envelope text-lg"></i>
-              </a>
- 
-              <div className="hidden md:flex items-center gap-2 ml-2 text-sm">
-                <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-                <span>Disponible</span>
-              </div>
-            </div>
-          </div>
- 
-          <div className="relative flex justify-center">
-            <div className="relative w-72 h-72 md:w-96 md:h-96">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary to-emerald-600 opacity-20 blur-2xl"></div>
-              <img src={USER.avatar} alt="Profile"
-                className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-slate-900 shadow-2xl"
-                onError={(e)=>{ e.currentTarget.src = "https://via.placeholder.com/512x512.png?text=Amal+Laknifed"; }}
-              />
- 
-              <div className="absolute -bottom-5 -right-2 md:-right-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-lg floaty">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                    <i className="fa-solid fa-wand-magic-sparkles"></i>
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Focus</p>
-                    <p className="font-extrabold text-slate-900 dark:text-white">UI/UX • Web & Mobile</p>
-                  </div>
-                </div>
-              </div>
- 
-              <div className="absolute -top-3 -left-2 md:-left-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-lg floaty" style={{ animationDelay: "1.2s" }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-green-100 text-primary flex items-center justify-center">
-                    <i className="fa-solid fa-gears"></i>
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Stack</p>
-                    <p className="font-extrabold text-slate-900 dark:text-white">Flutter • Kotlin • Laravel</p>
-                  </div>
-                </div>
-              </div>
- 
-            </div>
-          </div>
- 
-        </div>
-      </section>
-    );
- 
-    // =======================
-    // About + Timeline
-    // =======================
-    const About = () => (
-      <section id="about" className="py-20 bg-white dark:bg-dark">
-        <div className="container mx-auto px-6">
-          <SectionTitle
-            title="À propos"
-            subtitle="Formation, expérience et objectifs."
-          />
- 
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
-            <div className="rounded-3xl p-7 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-              <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Profil</h3>
-              <p className="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed">{USER.about}</p>
- 
-              <div className="mt-6 grid sm:grid-cols-2 gap-4">
-                <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4">
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Email</p>
-                  <a href={`mailto:${USER.email}`} className="font-extrabold text-slate-900 dark:text-white hover:text-primary transition">
-                    {USER.email}
-                  </a>
-                </div>
-                <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4">
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Téléphone</p>
-                  <a href={`tel:${USER.phone}`} className="font-extrabold text-slate-900 dark:text-white hover:text-primary transition">
-                    {USER.phone}
-                  </a>
-                </div>
-              </div>
- 
-              <div className="mt-6 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4">
-                <p className="text-xs text-slate-500 dark:text-slate-400">Langues</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {USER.languages.map((l, i) => (
-                    <Pill key={i}>{l.name} : <span className="ml-1 text-primary font-extrabold">{l.level}</span></Pill>
-                  ))}
-                </div>
-              </div>
-            </div>
- 
-            <div className="relative">
-              <div className="absolute left-4 top-2 bottom-2 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
-              <div className="space-y-8">
-                {USER.timeline.map((t, i) => (
-                  <div key={i} className="relative pl-12">
-                    <div className="absolute left-2 top-2 w-5 h-5 rounded-full bg-primary border-4 border-white dark:border-dark shadow"></div>
-                    <p className="text-sm font-extrabold text-primary">{t.date}</p>
-                    <h4 className="mt-1 text-xl font-extrabold text-slate-900 dark:text-white">{t.title}</h4>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 font-semibold">{t.place}</p>
-                    <p className="mt-2 text-slate-600 dark:text-slate-400">{t.desc}</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {t.tags.map((tag, k) => <Pill key={k}>{tag}</Pill>)}
-                    </div>
-                  </div>
-                ))}
-              </div>
- 
-              <div className="mt-10 rounded-3xl p-6 bg-gradient-to-r from-primary to-emerald-600 text-white shadow-glow">
-                <h4 className="text-xl font-extrabold">Objectif</h4>
-                <p className="mt-2 text-emerald-50">
-                  Je recherche un stage ou une opportunité professionnelle pour contribuer à des projets Web & Mobile (Flutter/Android/Laravel),
-                  tout en renforçant mes compétences techniques et ma rigueur d’ingénierie logicielle.
-                </p>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <a href="#projects" className="px-5 py-2.5 rounded-2xl bg-white text-slate-900 font-extrabold hover:opacity-95 transition">
-                    Voir les projets
-                  </a>
-                  <a href="#contact" className="px-5 py-2.5 rounded-2xl bg-white/15 border border-white/30 font-extrabold hover:bg-white/20 transition">
-                    Me contacter
-                  </a>
-                </div>
-              </div>
- 
-            </div>
-          </div>
-        </div>
-      </section>
-    );
- 
-    // =======================
-    // Services
-    // =======================
-    const Services = () => (
-      <section id="services" className="py-20 bg-slate-50 dark:bg-darker/50">
-        <div className="container mx-auto px-6">
-          <SectionTitle
-            title="Domaines"
-            subtitle="Mes axes principaux (Mobile + Web), avec une progression continue."
-          />
- 
-          <div className="grid md:grid-cols-3 gap-6">
-            {USER.services.map((s, i) => (
-              <div key={i} className="group rounded-3xl p-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center group-hover:scale-105 transition">
-                  <i className={`fa-solid ${s.icon}`}></i>
-                </div>
-                <h3 className="mt-5 text-xl font-extrabold text-slate-900 dark:text-white">{s.title}</h3>
-                <p className="mt-2 text-slate-600 dark:text-slate-400">{s.desc}</p>
-                <ul className="mt-4 space-y-2">
-                  {s.bullets.map((b, k) => (
-                    <li key={k} className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
-                      <span className="mt-1 w-5 h-5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-primary">
-                        <i className="fa-solid fa-check text-xs"></i>
-                      </span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
- 
-                {s.title.includes("Web") && (
-                  <div className="mt-5">
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold">
-                      <i className="fa-solid fa-graduation-cap"></i> En apprentissage
-                    </span>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
- 
-    // =======================
-    // Skills
-    // =======================
-    const Skills = () => {
-      const [query, setQuery] = useState("");
-      const [filter, setFilter] = useState("Tous");
- 
-      const tags = useMemo(() => ["Tous", ...Array.from(new Set(USER.skills.map(s => s.tag)))], []);
- 
-      const filtered = useMemo(() => {
-        const q = query.trim().toLowerCase();
-        return USER.skills.filter((s) => {
-          const okTag = filter === "Tous" ? true : s.tag === filter;
-          const okQuery = q ? s.name.toLowerCase().includes(q) : true;
-          return okTag && okQuery;
-        });
-      }, [query, filter]);
- 
-      return (
-        <section id="skills" className="py-20 bg-white dark:bg-dark">
-          <div className="container mx-auto px-6">
-            <SectionTitle
-              title="Compétences"
-              subtitle="Mobile et Web — avec un focus sur l’apprentissage et la progression."
-            />
- 
-            <div className="max-w-3xl mx-auto mb-8">
-              <div className="flex flex-col md:flex-row gap-3 items-stretch">
-                <div className="relative flex-1">
-                  <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                  <input
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Rechercher… (ex: Flutter, Laravel, Room, API)"
-                    className="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/50"
-                  />
-                </div>
- 
-                <select
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="md:w-56 px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/50 font-bold"
-                >
-                  {tags.map((t) => <option key={t} value={t}>{t}</option>)}
-                </select>
-              </div>
- 
-              <div className="mt-4 flex flex-wrap gap-2 justify-center">
-                {tags.map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setFilter(t)}
-                    className={`px-4 py-2 rounded-2xl text-sm font-extrabold border transition ${
-                      filter === t
-                        ? "bg-primary text-white border-primary"
-                        : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-            </div>
- 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((skill, idx) => (
-                <div key={idx} className="rounded-3xl p-6 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center ${skill.color}`}>
-                      <i className={`${skill.icon} text-2xl`}></i>
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-extrabold text-slate-900 dark:text-white">{skill.name}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">{skill.tag}</p>
-                    </div>
-                    <Pill>{skill.level}%</Pill>
-                  </div>
- 
-                  <div className="mt-4">
-                    <div className="w-full h-2.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                      <div className="h-full bg-primary" style={{ width: `${clamp(skill.level, 0, 100)}%` }}></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
- 
-            <div className="mt-12 rounded-3xl p-6 bg-gradient-to-r from-slate-900 to-slate-800 text-white">
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div>
-                  <h3 className="text-xl font-extrabold">Profil GitHub</h3>
-                  <p className="text-slate-200 mt-1">Code, exercices et projets (publics/privés).</p>
-                </div>
-                <a href={USER.github} target="_blank" className="px-5 py-2.5 rounded-2xl bg-white text-slate-900 font-extrabold hover:opacity-95 transition">
-                  Voir GitHub <i className="fa-brands fa-github ml-2"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      );
-    };
- 
-    // =======================
-    // Project Modal
-    // =======================
-    const ProjectModal = ({ project, onClose }) => {
-      const ref = useRef(null);
-      useOnClickOutside(ref, onClose);
-      if (!project) return null;
- 
-      const githubUrl = project.links.github || USER.github;
- 
-      return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-5">
-          <div className="absolute inset-0 bg-black/60"></div>
- 
-          <div ref={ref} className="relative w-full max-w-3xl rounded-3xl bg-white dark:bg-darker border border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl">
-            <div className="relative h-56 md:h-72">
-              <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
-              <button onClick={onClose} className="absolute top-4 right-4 w-11 h-11 rounded-2xl bg-white/90 text-slate-900 flex items-center justify-center hover:bg-white transition">
-                <i className="fa-solid fa-xmark text-lg"></i>
-              </button>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-              <div className="absolute bottom-4 left-5 right-5">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Pill>{project.category}</Pill>
-                  {project.stack.slice(0, 4).map((s, i) => <Pill key={i}>{s}</Pill>)}
-                </div>
-                <h3 className="mt-3 text-2xl md:text-3xl font-extrabold text-white">{project.title}</h3>
-              </div>
-            </div>
- 
-            <div className="p-6 md:p-7">
-              <p className="text-slate-700 dark:text-slate-200 leading-relaxed">{project.desc}</p>
- 
-              <ul className="mt-5 grid md:grid-cols-2 gap-3">
-                {project.bullets.map((b, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                    <span className="mt-1 w-5 h-5 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-                      <i className="fa-solid fa-check text-xs"></i>
-                    </span>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
- 
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a href={githubUrl} target="_blank" className="px-5 py-2.5 rounded-2xl bg-slate-900 text-white font-extrabold hover:opacity-95 transition">
-                  GitHub <i className="fa-brands fa-github ml-2"></i>
-                </a>
- 
-                {project.links.demo ? (
-                  <a href={project.links.demo} target="_blank" className="px-5 py-2.5 rounded-2xl bg-primary text-white font-extrabold hover:opacity-95 transition">
-                    Démo <i className="fa-solid fa-arrow-up-right-from-square ml-2 text-xs"></i>
-                  </a>
-                ) : (
-                  <span className="px-5 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-extrabold">
-                    Démo : bientôt
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    };
- 
-    // =======================
-    // Projects
-    // =======================
-    const Projects = () => {
-      const categories = useMemo(() => ["Tous", ...Array.from(new Set(USER.projects.map((p) => p.category)))], []);
-      const [active, setActive] = useState("Tous");
-      const [selected, setSelected] = useState(null);
- 
-      const projects = useMemo(() => {
-        const base = active === "Tous" ? USER.projects : USER.projects.filter((p) => p.category === active);
-        return [...base].sort((a, b) => (b.featured === true) - (a.featured === true));
-      }, [active]);
- 
-      return (
-        <section id="projects" className="py-20 bg-slate-50 dark:bg-darker/50">
-          <div className="container mx-auto px-6">
-            <SectionTitle
-              title="Projets"
-              subtitle="Cliquez sur un projet pour voir les détails."
-            />
- 
-            <div className="flex flex-wrap justify-center gap-2 mb-10">
-              {categories.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setActive(c)}
-                  className={`px-4 py-2 rounded-2xl text-sm font-extrabold border transition ${
-                    active === c
-                      ? "bg-primary text-white border-primary"
-                      : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary"
-                  }`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
- 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((p) => (
-                <div key={p.id} className="group rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition">
-                  <div className="relative h-48 overflow-hidden">
-                    <img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent opacity-90"></div>
-                    {p.featured && (
-                      <div className="absolute top-4 left-4">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 text-slate-900 text-xs font-extrabold">
-                          <i className="fa-solid fa-star text-yellow-500"></i> Prioritaire
-                        </span>
-                      </div>
-                    )}
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="flex flex-wrap gap-2">
-                        <Pill>{p.category}</Pill>
-                        {p.stack.slice(0, 2).map((s, i) => <Pill key={i}>{s}</Pill>)}
-                      </div>
-                      <h3 className="mt-3 text-xl font-extrabold text-white">{p.title}</h3>
-                    </div>
-                  </div>
- 
-                  <div className="p-6">
-                    <p className="text-slate-600 dark:text-slate-400">{p.desc}</p>
-                    <div className="mt-5 flex items-center justify-between gap-3">
-                      <button
-                        onClick={() => setSelected(p)}
-                        className="px-4 py-2 rounded-2xl bg-primary text-white font-extrabold hover:opacity-95 transition"
-                      >
-                        Détails
-                      </button>
-                      <a href={(p.links.github || USER.github)} target="_blank" className="text-sm font-extrabold text-slate-700 dark:text-slate-200 hover:text-primary transition">
-                        GitHub <i className="fa-solid fa-arrow-right ml-1 text-xs"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
- 
-            <ProjectModal project={selected} onClose={() => setSelected(null)} />
-          </div>
-        </section>
-      );
-    };
- 
-    // =======================
-    // Contact
-    // =======================
-    const Contact = () => {
-      const [name, setName] = useState("");
-      const [email, setEmail] = useState("");
-      const [msg, setMsg] = useState("");
-      const [status, setStatus] = useState(null);
- 
-      const mailto = useMemo(() => {
-        const subject = encodeURIComponent(`Contact Portfolio - ${USER.name}`);
-        const body = encodeURIComponent(`Nom: ${name}\nEmail: ${email}\n\nMessage:\n${msg}\n`);
-        return `mailto:${USER.email}?subject=${subject}&body=${body}`;
-      }, [name, email, msg]);
- 
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        const ok = name.trim().length >= 2 && email.includes("@") && msg.trim().length >= 10;
-        setStatus(ok ? "ok" : "err");
-        if (ok) window.location.href = mailto;
-      };
- 
-      return (
-        <section id="contact" className="py-20 bg-white dark:bg-dark">
-          <div className="container mx-auto px-6 max-w-5xl">
-            <SectionTitle title="Contact" subtitle="Envoyez-moi un message. Le formulaire ouvre votre email avec le contenu pré-rempli." />
- 
-            <div className="grid lg:grid-cols-2 gap-8 items-start">
-              <div className="rounded-3xl p-8 bg-gradient-to-r from-primary to-emerald-600 text-white shadow-glow">
-                <h3 className="text-2xl font-extrabold">Informations</h3>
-                <p className="mt-3 text-emerald-50">Vous pouvez me contacter directement via :</p>
- 
-                <div className="mt-6 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <span className="w-11 h-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center">
-                      <i className="fa-solid fa-envelope"></i>
-                    </span>
-                    <div>
-                      <p className="text-xs text-emerald-50">Email</p>
-                      <a href={`mailto:${USER.email}`} className="font-extrabold hover:underline">{USER.email}</a>
-                    </div>
-                  </div>
- 
-                  <div className="flex items-center gap-3">
-                    <span className="w-11 h-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center">
-                      <i className="fa-solid fa-phone"></i>
-                    </span>
-                    <div>
-                      <p className="text-xs text-emerald-50">Téléphone</p>
-                      <a href={`tel:${USER.phone}`} className="font-extrabold hover:underline">{USER.phone}</a>
-                    </div>
-                  </div>
- 
-                  <div className="flex items-center gap-3">
-                    <span className="w-11 h-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center">
-                      <i className="fa-solid fa-location-dot"></i>
-                    </span>
-                    <div>
-                      <p className="text-xs text-emerald-50">Localisation</p>
-                      <p className="font-extrabold">{USER.location}</p>
-                    </div>
-                  </div>
-                </div>
- 
-                <div className="mt-8 flex gap-3">
-                  <a href={USER.github} target="_blank" className="w-12 h-12 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center hover:bg-white/20 transition" aria-label="GitHub">
-                    <i className="fa-brands fa-github text-xl"></i>
-                  </a>
- 
-                  <button
-                    type="button"
-                    className="w-12 h-12 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center text-white/70 cursor-not-allowed"
-                    title="LinkedIn — Coming soon"
-                    aria-label="LinkedIn coming soon"
-                  >
-                    <i className="fa-brands fa-linkedin-in text-xl"></i>
-                  </button>
-                </div>
-              </div>
- 
-              <form onSubmit={handleSubmit} className="rounded-3xl p-8 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Envoyer un message</h3>
- 
-                <div className="mt-6 space-y-4">
-                  <div>
-                    <label className="text-sm font-bold text-slate-700 dark:text-slate-200">Nom</label>
-                    <input value={name} onChange={(e) => setName(e.target.value)}
-                      className="mt-2 w-full px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 outline-none focus:ring-2 focus:ring-primary/50"
-                      placeholder="Votre nom" />
-                  </div>
- 
-                  <div>
-                    <label className="text-sm font-bold text-slate-700 dark:text-slate-200">Email</label>
-                    <input value={email} onChange={(e) => setEmail(e.target.value)} type="email"
-                      className="mt-2 w-full px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 outline-none focus:ring-2 focus:ring-primary/50"
-                      placeholder="vous@exemple.com" />
-                  </div>
- 
-                  <div>
-                    <label className="text-sm font-bold text-slate-700 dark:text-slate-200">Message</label>
-                    <textarea value={msg} onChange={(e) => setMsg(e.target.value)}
-                      className="mt-2 w-full px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 outline-none focus:ring-2 focus:ring-primary/50 min-h-[140px]"
-                      placeholder="Votre message (min 10 caractères)"></textarea>
-                  </div>
-                </div>
- 
-                {status === "err" && (
-                  <div className="mt-4 rounded-2xl p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-200 text-sm font-semibold">
-                    Merci de vérifier : nom (2+), email valide, message (10+).
-                  </div>
-                )}
- 
-                <button type="submit" className="mt-6 w-full px-6 py-3 rounded-2xl bg-primary text-white font-extrabold hover:opacity-95 transition shadow-glow">
-                  Envoyer <i className="fa-solid fa-paper-plane ml-2"></i>
-                </button>
-              </form>
-            </div>
-          </div>
-        </section>
-      );
-    };
- 
-    // =======================
-    // Footer
-    // =======================
-    const Footer = () => (
-      <footer className="py-10 bg-slate-50 dark:bg-darker border-t border-slate-200 dark:border-slate-800">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-slate-600 dark:text-slate-400 font-semibold">
-            © {new Date().getFullYear()} <span className="font-extrabold">{USER.name}</span>.
-          </p>
-          <a href="#home" className="px-4 py-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-extrabold text-slate-700 dark:text-slate-200 hover:text-primary hover:border-primary transition">
-            Retour en haut <i className="fa-solid fa-arrow-up ml-2 text-xs"></i>
-          </a>
-        </div>
-      </footer>
-    );
- 
-    // =======================
-    // App
-    // =======================
-    const App = () => {
-      const [darkMode, setDarkMode] = useState(false);
- 
-      useEffect(() => {
-        const saved = localStorage.getItem("theme");
-        if (saved === "dark") setDarkMode(true);
-        else if (saved === "light") setDarkMode(false);
-        else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) setDarkMode(true);
-      }, []);
- 
-      useEffect(() => {
-        if (darkMode) {
-          document.documentElement.classList.add("dark");
-          localStorage.setItem("theme", "dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-          localStorage.setItem("theme", "light");
-        }
-      }, [darkMode]);
- 
-      return (
-        <div className="bg-white dark:bg-dark transition-colors duration-300 min-h-screen">
-          <Navbar darkMode={darkMode} toggleDarkMode={() => setDarkMode((v) => !v)} />
-          <Hero />
-          <About />
-          <Services />
-          <Skills />
-          <Projects />
-          <Contact />
-          <Footer />
-        </div>
-      );
-    };
- 
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<App />);
-  </script>
+ <div id="root"></div>
+ 
+ <script type="text/babel">
+   const { useEffect, useMemo, useRef, useState } = React;
+ 
+   // ---------- USER DATA ----------
+   const USER_DATA = {
+     name: "Mohammed Tahiri",
+     title: "Développeur C/C++ • Python • Machine Learning",
+     location: "Maroc",
+     email: "mohamadtahiri100@gmail.com",
+     phone: "0645757016",
+     linkedin: "https://www.linkedin.com/in/mohamed-tahiri-5b6a812ba",
+     github: "https://github.com/Tahirimohammed",
+     resumeLink: "#", // <-- mets ton lien CV (Google Drive / PDF)
+     avatar:
+       "https://media.licdn.com/dms/image/v2/D4D03AQG53tgRVFaysA/profile-displayphoto-scale_400_400/B4DZq8NE2FGgAg-/0/1764094139956?e=1766016000&v=beta&t=WYHI1HpP1_5gDs_m-6Y3ict4U9CxiD0gG3NEpkLplk8",
+ 
+     about:
+       "Passionné par la programmation système (C/C++), la Data Science et le Machine Learning (Python, TensorFlow, Scikit-learn). J’aime construire des solutions propres, optimisées et maintenables, avec une approche orientée performance & qualité.",
+ 
+     highlights: [
+       { icon: "fa-bolt", title: "Performance", desc: "Code propre, optimisé, et mesurable." },
+       { icon: "fa-shield-halved", title: "Qualité", desc: "Tests, bonnes pratiques, et rigueur." },
+       { icon: "fa-diagram-project", title: "Projets", desc: "Du système au ML, du web au tooling." },
+     ],
+ 
+     services: [
+       {
+         icon: "fa-brain",
+         title: "Machine Learning",
+         desc: "Préparation de données, entraînement, évaluation, et déploiement (basique) de modèles.",
+         bullets: ["Scikit-learn", "TensorFlow", "Pandas/NumPy"],
+       },
+       {
+         icon: "fa-terminal",
+         title: "Programmation Système",
+         desc: "Implémentations C/C++ : structures de données, algorithmes, tooling Linux.",
+         bullets: ["C/C++", "Linux", "Git"],
+       },
+       {
+         icon: "fa-code",
+         title: "Développement Web",
+         desc: "Interfaces modernes, responsive, avec une bonne UX.",
+         bullets: ["HTML/CSS", "JavaScript", "Tailwind"],
+       },
+     ],
+ 
+     skills: [
+       { name: "HTML5/CSS3", icon: "fab fa-html5", color: "text-orange-500", level: 78 },
+       { name: "JavaScript", icon: "fab fa-js", color: "text-yellow-400", level: 70 },
+       { name: "Python", icon: "fab fa-python", color: "text-blue-500", level: 82 },
+       { name: "C / C++", icon: "fas fa-terminal", color: "text-blue-700", level: 76 },
+       { name: "Machine Learning", icon: "fas fa-brain", color: "text-purple-600", level: 72 },
+       { name: "Bases de Données", icon: "fas fa-database", color: "text-green-600", level: 68 },
+       { name: "DevOps / Outils", icon: "fas fa-tools", color: "text-slate-500", level: 65 },
+     ],
+ 
+     timeline: [
+       {
+         date: "2024",
+         title: "Piscine - École 1337 (42 Network)",
+         place: "1337",
+         desc:
+           "Formation intensive d’un mois : programmation en C, peer-learning, gestion de projet, rigueur et autonomie.",
+         tags: ["C", "Linux", "Peer-learning"],
+       },
+       {
+         date: "2025 - Présent",
+         title: "Autoformation & Projets",
+         place: "Data / ML / DevSecOps",
+         desc:
+           "Approfondissement Machine Learning (TensorFlow, Scikit-learn) et environnements Linux/Docker.",
+         tags: ["Python", "ML", "Docker"],
+       },
+     ],
+ 
+     projects: [
+       {
+         id: "p1",
+         title: "Classification ML (Pipeline complet)",
+         category: "Machine Learning",
+         stack: ["Python", "Pandas", "Scikit-learn"],
+         image:
+           "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+         desc:
+           "Pipeline de préparation de données, entraînement, validation, métriques et export du modèle.",
+         links: {
+           github: "https://github.com/Tahirimohammed",
+           demo: "",
+         },
+         bullets: ["Nettoyage des données", "GridSearchCV", "Rapport de performance"],
+         featured: true,
+       },
+       {
+         id: "p2",
+         title: "Mini Shell Unix",
+         category: "Système",
+         stack: ["C", "Linux"],
+         image:
+           "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+         desc:
+           "Implémentation d’un mini shell : parsing, exécution de commandes, gestion de processus.",
+         links: { github: "https://github.com/Tahirimohammed", demo: "" },
+         bullets: ["Fork/exec", "Redirections", "Gestion d’erreurs"],
+         featured: true,
+       },
+       {
+         id: "p3",
+         title: "Web App (Front + DB)",
+         category: "Web",
+         stack: ["HTML", "JS", "MongoDB"],
+         image:
+           "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+         desc:
+           "Application web responsive avec composants UI, et intégration base de données.",
+         links: { github: "https://github.com/Tahirimohammed", demo: "" },
+         bullets: ["UI responsive", "CRUD", "Architecture simple"],
+         featured: false,
+       },
+       {
+         id: "p4",
+         title: "Notebook Data Analysis",
+         category: "Data",
+         stack: ["Python", "Pandas"],
+         image:
+           "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80",
+         desc:
+           "Analyse exploratoire : visualisations, corrélations, insights et conclusions.",
+         links: { github: "https://github.com/Tahirimohammed", demo: "" },
+         bullets: ["EDA", "Features", "Insights"],
+         featured: false,
+       },
+     ],
+ 
+     testimonials: [
+       {
+         name: "Encadrant / Mentor",
+         role: "Feedback",
+         text:
+           "Profil sérieux et rigoureux, bonne capacité d’apprentissage autonome et sens de la résolution de problèmes.",
+       },
+       {
+         name: "Collègue",
+         role: "Collaboration",
+         text:
+           "Communication claire, bonne organisation, et esprit d’équipe. Travail propre et structuré.",
+       },
+     ],
+ 
+     languages: [
+       { name: "Anglais", level: "B2" },
+       { name: "Français", level: "B2" },
+     ],
+   };
+ 
+   // ---------- Helpers ----------
+   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+ 
+   const useOnClickOutside = (ref, handler) => {
+     useEffect(() => {
+       const listener = (event) => {
+         if (!ref.current || ref.current.contains(event.target)) return;
+         handler(event);
+       };
+       document.addEventListener("mousedown", listener);
+       document.addEventListener("touchstart", listener);
+       return () => {
+         document.removeEventListener("mousedown", listener);
+         document.removeEventListener("touchstart", listener);
+       };
+     }, [ref, handler]);
+   };
+ 
+   // ---------- UI Primitives ----------
+   const SectionTitle = ({ title, subtitle }) => (
+     <div className="text-center mb-14">
+       <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">{title}</h2>
+       {subtitle && <p className="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{subtitle}</p>}
+       <div className="w-24 h-1.5 bg-primary mx-auto mt-6 rounded-full"></div>
+     </div>
+   );
+ 
+   const Pill = ({ children }) => (
+     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
+       {children}
+     </span>
+   );
+ 
+   // ---------- Navbar ----------
+   const Navbar = ({ darkMode, toggleDarkMode }) => {
+     const [isOpen, setIsOpen] = useState(false);
+     const [scrolled, setScrolled] = useState(false);
+ 
+     useEffect(() => {
+       const handleScroll = () => setScrolled(window.scrollY > 30);
+       window.addEventListener("scroll", handleScroll);
+       return () => window.removeEventListener("scroll", handleScroll);
+     }, []);
+ 
+     const links = [
+       { name: "Accueil", href: "#home" },
+       { name: "À propos", href: "#about" },
+       { name: "Services", href: "#services" },
+       { name: "Compétences", href: "#skills" },
+       { name: "Projets", href: "#projects" },
+       { name: "Avis", href: "#testimonials" },
+       { name: "Contact", href: "#contact" },
+     ];
+ 
+     return (
+       <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/85 dark:bg-darker/80 glass shadow-lg py-3" : "bg-transparent py-5"}`}>
+         <div className="container mx-auto px-6 flex justify-between items-center">
+           <a href="#home" className="flex items-center gap-2 font-extrabold text-xl text-primary">
+             <span className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+               <i className="fas fa-code"></i>
+             </span>
+             <span className="text-slate-900 dark:text-white">Mohammed<span className="text-primary">Tahiri</span></span>
+           </a>
+ 
+           <div className="hidden lg:flex items-center gap-7">
+             {links.map((l) => (
+               <a key={l.name} href={l.href} className="text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors">
+                 {l.name}
+               </a>
+             ))}
+ 
+             <a
+               href={USER_DATA.resumeLink}
+               className="text-sm font-bold px-4 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 transition"
+               title="Télécharger le CV"
+             >
+               <i className="fa-solid fa-file-arrow-down mr-2"></i>CV
+             </a>
+ 
+             <button
+               onClick={toggleDarkMode}
+               className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-yellow-400 border border-slate-200 dark:border-slate-700"
+               aria-label="Toggle dark mode"
+             >
+               <i className={`fas ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
+             </button>
+           </div>
+ 
+           <div className="lg:hidden flex items-center gap-3">
+             <button onClick={toggleDarkMode} className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-yellow-400">
+               <i className={`fas ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
+             </button>
+             <button onClick={() => setIsOpen((v) => !v)} className="p-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+               <i className={`fas ${isOpen ? "fa-times" : "fa-bars"}`}></i>
+             </button>
+           </div>
+         </div>
+ 
+         {isOpen && (
+           <div className="lg:hidden mt-3 mx-4 rounded-2xl bg-white dark:bg-darker shadow-lg border border-slate-200 dark:border-slate-800 p-4">
+             <div className="flex flex-col gap-3">
+               {links.map((l) => (
+                 <a key={l.name} href={l.href} onClick={() => setIsOpen(false)} className="px-3 py-2 rounded-xl font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
+                   {l.name}
+                 </a>
+               ))}
+               <a href={USER_DATA.resumeLink} className="px-3 py-2 rounded-xl font-bold bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-center">
+                 <i className="fa-solid fa-file-arrow-down mr-2"></i> Télécharger CV
+               </a>
+             </div>
+           </div>
+         )}
+       </nav>
+     );
+   };
+ 
+   // ---------- Hero ----------
+   const Hero = () => (
+     <section id="home" className="min-h-screen pt-28 pb-16 relative overflow-hidden">
+       <div className="absolute -top-24 -right-24 w-[420px] h-[420px] bg-primary/15 blur-3xl rounded-full -z-10"></div>
+       <div className="absolute -bottom-24 -left-24 w-[420px] h-[420px] bg-purple-500/15 blur-3xl rounded-full -z-10"></div>
+ 
+       <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+         <div className="fade-in-up">
+           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-primary text-xs font-extrabold tracking-wider uppercase">
+             <i className="fa-solid fa-sparkles"></i> {USER_DATA.title}
+           </div>
+ 
+           <h1 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-slate-900 dark:text-white">
+             Je construis des solutions <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">Data & Système</span> efficaces.
+           </h1>
+ 
+           <p className="mt-6 text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
+             Salut, je suis <b className="text-slate-900 dark:text-white">{USER_DATA.name}</b>. {USER_DATA.about}
+           </p>
+ 
+           <div className="mt-8 flex flex-wrap gap-4">
+             <a href="#projects" className="px-7 py-3 rounded-2xl bg-primary text-white font-extrabold shadow-glow hover:opacity-95 transition transform hover:-translate-y-0.5">
+               Voir mes projets <i className="fa-solid fa-arrow-right ml-2 text-xs"></i>
+             </a>
+             <a href="#contact" className="px-7 py-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-extrabold hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+               Me contacter
+             </a>
+           </div>
+ 
+           <div className="mt-9 flex items-center gap-4 text-slate-500 dark:text-slate-400">
+             <a href={USER_DATA.github} target="_blank" className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:text-primary hover:border-primary transition" aria-label="GitHub">
+               <i className="fab fa-github text-xl"></i>
+             </a>
+             <a href={USER_DATA.linkedin} target="_blank" className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:text-primary hover:border-primary transition" aria-label="LinkedIn">
+               <i className="fab fa-linkedin text-xl"></i>
+             </a>
+             <a href={`mailto:${USER_DATA.email}`} className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:text-primary hover:border-primary transition" aria-label="Email">
+               <i className="fas fa-envelope text-lg"></i>
+             </a>
+ 
+             <div className="hidden md:flex items-center gap-2 ml-2 text-sm">
+               <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+               <span>Disponible pour opportunités</span>
+             </div>
+           </div>
+ 
+           <div className="mt-10 grid sm:grid-cols-3 gap-4">
+             {USER_DATA.highlights.map((h, i) => (
+               <div key={i} className="rounded-2xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition">
+                 <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                   <i className={`fa-solid ${h.icon}`}></i>
+                 </div>
+                 <p className="mt-3 font-extrabold text-slate-900 dark:text-white">{h.title}</p>
+                 <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{h.desc}</p>
+               </div>
+             ))}
+           </div>
+         </div>
+ 
+         <div className="relative flex justify-center">
+           <div className="relative w-72 h-72 md:w-96 md:h-96">
+             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary to-purple-600 opacity-20 blur-2xl"></div>
+             <img src={USER_DATA.avatar} alt="Profile"
+               className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-slate-900 shadow-2xl"
+               onError={(e)=>{ e.currentTarget.src = "https://via.placeholder.com/512x512.png?text=Profile"; }}
+             />
+             <div className="absolute -bottom-5 -right-2 md:-right-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-lg floaty">
+               <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-2xl bg-green-100 text-green-700 flex items-center justify-center">
+                   <i className="fa-solid fa-microchip"></i>
+                 </div>
+                 <div>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Domaines</p>
+                   <p className="font-extrabold text-slate-900 dark:text-white">Data • Système</p>
+                 </div>
+               </div>
+             </div>
+ 
+             <div className="absolute -top-3 -left-2 md:-left-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-lg floaty" style={{ animationDelay: "1.2s" }}>
+               <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-2xl bg-blue-100 text-primary flex items-center justify-center">
+                   <i className="fa-solid fa-gear"></i>
+                 </div>
+                 <div>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">Stack</p>
+                   <p className="font-extrabold text-slate-900 dark:text-white">C/C++ • Python</p>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+ 
+       </div>
+     </section>
+   );
+ 
+   // ---------- About + Timeline ----------
+   const About = () => (
+     <section id="about" className="py-20 bg-white dark:bg-dark">
+       <div className="container mx-auto px-6">
+         <SectionTitle
+           title="À propos"
+           subtitle="Un parcours orienté performance, rigueur, et résolution de problèmes."
+         />
+ 
+         <div className="grid lg:grid-cols-2 gap-10 items-start">
+           <div className="rounded-3xl p-7 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+             <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Résumé</h3>
+             <p className="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+               {USER_DATA.about}
+             </p>
+ 
+             <div className="mt-6 grid sm:grid-cols-2 gap-4">
+               <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4">
+                 <p className="text-xs text-slate-500 dark:text-slate-400">Email</p>
+                 <a href={`mailto:${USER_DATA.email}`} className="font-extrabold text-slate-900 dark:text-white hover:text-primary transition">
+                   {USER_DATA.email}
+                 </a>
+               </div>
+               <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4">
+                 <p className="text-xs text-slate-500 dark:text-slate-400">Téléphone</p>
+                 <a href={`tel:${USER_DATA.phone}`} className="font-extrabold text-slate-900 dark:text-white hover:text-primary transition">
+                   {USER_DATA.phone}
+                 </a>
+               </div>
+             </div>
+ 
+             <div className="mt-6 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4">
+               <p className="text-xs text-slate-500 dark:text-slate-400">Langues</p>
+               <div className="mt-2 flex flex-wrap gap-2">
+                 {USER_DATA.languages.map((l, i) => (
+                   <Pill key={i}>{l.name} : <span className="ml-1 text-primary font-extrabold">{l.level}</span></Pill>
+                 ))}
+               </div>
+             </div>
+           </div>
+ 
+           <div className="relative">
+             <div className="absolute left-4 top-2 bottom-2 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
+ 
+             <div className="space-y-8">
+               {USER_DATA.timeline.map((t, i) => (
+                 <div key={i} className="relative pl-12">
+                   <div className="absolute left-2 top-2 w-5 h-5 rounded-full bg-primary border-4 border-white dark:border-dark shadow"></div>
+                   <p className="text-sm font-extrabold text-primary">{t.date}</p>
+                   <h4 className="mt-1 text-xl font-extrabold text-slate-900 dark:text-white">{t.title}</h4>
+                   <p className="text-sm text-slate-500 dark:text-slate-400 font-semibold">{t.place}</p>
+                   <p className="mt-2 text-slate-600 dark:text-slate-400">{t.desc}</p>
+                   <div className="mt-3 flex flex-wrap gap-2">
+                     {t.tags.map((tag, k) => <Pill key={k}>{tag}</Pill>)}
+                   </div>
+                 </div>
+               ))}
+             </div>
+ 
+             <div className="mt-10 rounded-3xl p-6 bg-gradient-to-r from-primary to-purple-600 text-white shadow-glow">
+               <h4 className="text-xl font-extrabold">Objectif</h4>
+               <p className="mt-2 text-blue-100">
+                 Rejoindre une équipe où je peux contribuer sur des projets Data/ML et Système, avec une culture qualité et performance.
+               </p>
+               <div className="mt-5 flex flex-wrap gap-3">
+                 <a href="#projects" className="px-5 py-2.5 rounded-2xl bg-white text-slate-900 font-extrabold hover:opacity-95 transition">
+                   Voir les projets
+                 </a>
+                 <a href="#contact" className="px-5 py-2.5 rounded-2xl bg-white/15 border border-white/30 font-extrabold hover:bg-white/20 transition">
+                   Parler d’une opportunité
+                 </a>
+               </div>
+             </div>
+ 
+           </div>
+         </div>
+       </div>
+     </section>
+   );
+ 
+   // ---------- Services ----------
+   const Services = () => (
+     <section id="services" className="py-20 bg-slate-50 dark:bg-darker/50">
+       <div className="container mx-auto px-6">
+         <SectionTitle
+           title="Ce que je peux faire"
+           subtitle="Des services concrets : ML, système, web — avec un focus qualité."
+         />
+ 
+         <div className="grid md:grid-cols-3 gap-6">
+           {USER_DATA.services.map((s, i) => (
+             <div key={i} className="group rounded-3xl p-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition">
+               <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center group-hover:scale-105 transition">
+                 <i className={`fa-solid ${s.icon}`}></i>
+               </div>
+               <h3 className="mt-5 text-xl font-extrabold text-slate-900 dark:text-white">{s.title}</h3>
+               <p className="mt-2 text-slate-600 dark:text-slate-400">{s.desc}</p>
+               <ul className="mt-4 space-y-2">
+                 {s.bullets.map((b, k) => (
+                   <li key={k} className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                     <span className="mt-1 w-5 h-5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-primary">
+                       <i className="fa-solid fa-check text-xs"></i>
+                     </span>
+                     <span>{b}</span>
+                   </li>
+                 ))}
+               </ul>
+             </div>
+           ))}
+         </div>
+       </div>
+     </section>
+   );
+ 
+   // ---------- Skills ----------
+   const Skills = () => {
+     const [query, setQuery] = useState("");
+     const filtered = useMemo(() => {
+       const q = query.trim().toLowerCase();
+       if (!q) return USER_DATA.skills;
+       return USER_DATA.skills.filter((s) => s.name.toLowerCase().includes(q));
+     }, [query]);
+ 
+     return (
+       <section id="skills" className="py-20 bg-white dark:bg-dark">
+         <div className="container mx-auto px-6">
+           <SectionTitle
+             title="Compétences"
+             subtitle="Un aperçu des compétences (et niveaux indicatifs)."
+           />
+ 
+           <div className="max-w-xl mx-auto mb-10">
+             <div className="relative">
+               <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+               <input
+                 value={query}
+                 onChange={(e) => setQuery(e.target.value)}
+                 placeholder="Rechercher une compétence… (ex: Python, C++)"
+                 className="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/50"
+               />
+             </div>
+           </div>
+ 
+           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+             {filtered.map((skill, idx) => (
+               <div key={idx} className="rounded-3xl p-6 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition">
+                 <div className="flex items-center gap-3">
+                   <div className={`w-12 h-12 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center ${skill.color}`}>
+                     <i className={`${skill.icon} text-2xl`}></i>
+                   </div>
+                   <div className="flex-1">
+                     <p className="font-extrabold text-slate-900 dark:text-white">{skill.name}</p>
+                     <p className="text-xs text-slate-500 dark:text-slate-400">Niveau (indicatif)</p>
+                   </div>
+                   <Pill>{skill.level}%</Pill>
+                 </div>
+ 
+                 <div className="mt-4">
+                   <div className="w-full h-2.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                     <div className="h-full bg-primary" style={{ width: `${clamp(skill.level, 0, 100)}%` }}></div>
+                   </div>
+                 </div>
+               </div>
+             ))}
+           </div>
+ 
+           <div className="mt-12 rounded-3xl p-6 bg-gradient-to-r from-slate-900 to-slate-800 text-white">
+             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+               <div>
+                 <h3 className="text-xl font-extrabold">Stack & outils</h3>
+                 <p className="text-slate-200 mt-1">Git/GitHub • Docker • Linux • VS Code</p>
+               </div>
+               <a href={USER_DATA.github} target="_blank" className="px-5 py-2.5 rounded-2xl bg-white text-slate-900 font-extrabold hover:opacity-95 transition">
+                 Voir GitHub <i className="fa-brands fa-github ml-2"></i>
+               </a>
+             </div>
+           </div>
+         </div>
+       </section>
+     );
+   };
+ 
+   // ---------- Projects + Modal + Filters ----------
+   const ProjectModal = ({ project, onClose }) => {
+     const ref = useRef(null);
+     useOnClickOutside(ref, onClose);
+ 
+     if (!project) return null;
+ 
+     return (
+       <div className="fixed inset-0 z-[60] flex items-center justify-center p-5">
+         <div className="absolute inset-0 bg-black/60"></div>
+ 
+         <div ref={ref} className="relative w-full max-w-3xl rounded-3xl bg-white dark:bg-darker border border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl">
+           <div className="relative h-56 md:h-72">
+             <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+             <button onClick={onClose} className="absolute top-4 right-4 w-11 h-11 rounded-2xl bg-white/90 text-slate-900 flex items-center justify-center hover:bg-white transition">
+               <i className="fa-solid fa-xmark text-lg"></i>
+             </button>
+             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+             <div className="absolute bottom-4 left-5 right-5">
+               <div className="flex flex-wrap items-center gap-2">
+                 <Pill>{project.category}</Pill>
+                 {project.stack.slice(0, 4).map((s, i) => <Pill key={i}>{s}</Pill>)}
+               </div>
+               <h3 className="mt-3 text-2xl md:text-3xl font-extrabold text-white">{project.title}</h3>
+             </div>
+           </div>
+ 
+           <div className="p-6 md:p-7">
+             <p className="text-slate-700 dark:text-slate-200 leading-relaxed">{project.desc}</p>
+ 
+             <ul className="mt-5 grid md:grid-cols-2 gap-3">
+               {project.bullets.map((b, i) => (
+                 <li key={i} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                   <span className="mt-1 w-5 h-5 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+                     <i className="fa-solid fa-check text-xs"></i>
+                   </span>
+                   <span>{b}</span>
+                 </li>
+               ))}
+             </ul>
+ 
+             <div className="mt-6 flex flex-wrap gap-3">
+               <a href={project.links.github || USER_DATA.github} target="_blank" className="px-5 py-2.5 rounded-2xl bg-slate-900 text-white font-extrabold hover:opacity-95 transition">
+                 GitHub <i className="fa-brands fa-github ml-2"></i>
+               </a>
+               {project.links.demo ? (
+                 <a href={project.links.demo} target="_blank" className="px-5 py-2.5 rounded-2xl bg-primary text-white font-extrabold hover:opacity-95 transition">
+                   Live Demo <i className="fa-solid fa-arrow-up-right-from-square ml-2 text-xs"></i>
+                 </a>
+               ) : (
+                 <button className="px-5 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-extrabold cursor-not-allowed">
+                   Demo (bientôt)
+                 </button>
+               )}
+             </div>
+           </div>
+         </div>
+       </div>
+     );
+   };
+ 
+   const Projects = () => {
+     const categories = useMemo(() => ["Tous", ...Array.from(new Set(USER_DATA.projects.map((p) => p.category)))], []);
+     const [active, setActive] = useState("Tous");
+     const [selected, setSelected] = useState(null);
+ 
+     const projects = useMemo(() => {
+       const base = active === "Tous" ? USER_DATA.projects : USER_DATA.projects.filter((p) => p.category === active);
+       // Featured first
+       return [...base].sort((a, b) => (b.featured === true) - (a.featured === true));
+     }, [active]);
+ 
+     return (
+       <section id="projects" className="py-20 bg-slate-50 dark:bg-darker/50">
+         <div className="container mx-auto px-6">
+           <SectionTitle
+             title="Projets"
+             subtitle="Clique sur un projet pour voir les détails (stack, objectifs, fonctionnalités)."
+           />
+ 
+           <div className="flex flex-wrap justify-center gap-2 mb-10">
+             {categories.map((c) => (
+               <button
+                 key={c}
+                 onClick={() => setActive(c)}
+                 className={`px-4 py-2 rounded-2xl text-sm font-extrabold border transition ${
+                   active === c
+                     ? "bg-primary text-white border-primary"
+                     : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary"
+                 }`}
+               >
+                 {c}
+               </button>
+             ))}
+           </div>
+ 
+           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+             {projects.map((p) => (
+               <div key={p.id} className="group rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition">
+                 <div className="relative h-48 overflow-hidden">
+                   <img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                   <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent opacity-90"></div>
+                   {p.featured && (
+                     <div className="absolute top-4 left-4">
+                       <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 text-slate-900 text-xs font-extrabold">
+                         <i className="fa-solid fa-star text-yellow-500"></i> Featured
+                       </span>
+                     </div>
+                   )}
+                   <div className="absolute bottom-4 left-4 right-4">
+                     <div className="flex flex-wrap gap-2">
+                       <Pill>{p.category}</Pill>
+                       {p.stack.slice(0, 2).map((s, i) => <Pill key={i}>{s}</Pill>)}
+                     </div>
+                     <h3 className="mt-3 text-xl font-extrabold text-white">{p.title}</h3>
+                   </div>
+                 </div>
+ 
+                 <div className="p-6">
+                   <p className="text-slate-600 dark:text-slate-400 line-clamp-2">{p.desc}</p>
+                   <div className="mt-5 flex items-center justify-between gap-3">
+                     <button
+                       onClick={() => setSelected(p)}
+                       className="px-4 py-2 rounded-2xl bg-primary text-white font-extrabold hover:opacity-95 transition"
+                     >
+                       Détails
+                     </button>
+                     <a href={p.links.github || USER_DATA.github} target="_blank" className="text-sm font-extrabold text-slate-700 dark:text-slate-200 hover:text-primary transition">
+                       GitHub <i className="fa-solid fa-arrow-right ml-1 text-xs"></i>
+                     </a>
+                   </div>
+                 </div>
+               </div>
+             ))}
+           </div>
+ 
+           <ProjectModal project={selected} onClose={() => setSelected(null)} />
+         </div>
+       </section>
+     );
+   };
+ 
+   // ---------- Testimonials ----------
+   const Testimonials = () => (
+     <section id="testimonials" className="py-20 bg-white dark:bg-dark">
+       <div className="container mx-auto px-6">
+         <SectionTitle title="Avis" subtitle="Quelques retours (tu peux remplacer par de vrais témoignages)."/>
+         <div className="grid md:grid-cols-2 gap-6">
+           {USER_DATA.testimonials.map((t, i) => (
+             <div key={i} className="rounded-3xl p-7 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+               <div className="flex items-start justify-between gap-4">
+                 <div>
+                   <p className="font-extrabold text-slate-900 dark:text-white">{t.name}</p>
+                   <p className="text-sm text-slate-500 dark:text-slate-400 font-semibold">{t.role}</p>
+                 </div>
+                 <div className="text-primary text-2xl">
+                   <i className="fa-solid fa-quote-right"></i>
+                 </div>
+               </div>
+               <p className="mt-4 text-slate-700 dark:text-slate-200 leading-relaxed">{t.text}</p>
+             </div>
+           ))}
+         </div>
+       </div>
+     </section>
+   );
+ 
+   // ---------- Contact (with form + validation) ----------
+   const Contact = () => {
+     const [name, setName] = useState("");
+     const [email, setEmail] = useState("");
+     const [msg, setMsg] = useState("");
+     const [status, setStatus] = useState(null); // 'ok' | 'err' | null
+ 
+     const mailto = useMemo(() => {
+       const subject = encodeURIComponent(`Contact Portfolio - ${USER_DATA.name}`);
+       const body = encodeURIComponent(
+         `Nom: ${name}\nEmail: ${email}\n\nMessage:\n${msg}\n`
+       );
+       return `mailto:${USER_DATA.email}?subject=${subject}&body=${body}`;
+     }, [name, email, msg]);
+ 
+     const handleSubmit = (e) => {
+       e.preventDefault();
+       const ok = name.trim().length >= 2 && email.includes("@") && msg.trim().length >= 10;
+       setStatus(ok ? "ok" : "err");
+       if (ok) window.location.href = mailto;
+     };
+ 
+     return (
+       <section id="contact" className="py-20 bg-slate-50 dark:bg-darker/50">
+         <div className="container mx-auto px-6">
+           <SectionTitle
+             title="Contact"
+             subtitle="Envoie-moi un message — je réponds rapidement."
+           />
+ 
+           <div className="grid lg:grid-cols-2 gap-8 items-start">
+             <div className="rounded-3xl p-8 bg-gradient-to-r from-primary to-purple-600 text-white shadow-glow">
+               <h3 className="text-2xl font-extrabold">Parlons de ton projet / opportunité</h3>
+               <p className="mt-3 text-blue-100">
+                 Tu peux me contacter directement via email/téléphone ou via le formulaire.
+               </p>
+ 
+               <div className="mt-6 space-y-4">
+                 <div className="flex items-center gap-3">
+                   <span className="w-11 h-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center">
+                     <i className="fa-solid fa-envelope"></i>
+                   </span>
+                   <div>
+                     <p className="text-xs text-blue-100">Email</p>
+                     <a href={`mailto:${USER_DATA.email}`} className="font-extrabold hover:underline">{USER_DATA.email}</a>
+                   </div>
+                 </div>
+ 
+                 <div className="flex items-center gap-3">
+                   <span className="w-11 h-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center">
+                     <i className="fa-solid fa-phone"></i>
+                   </span>
+                   <div>
+                     <p className="text-xs text-blue-100">Téléphone</p>
+                     <a href={`tel:${USER_DATA.phone}`} className="font-extrabold hover:underline">{USER_DATA.phone}</a>
+                   </div>
+                 </div>
+ 
+                 <div className="flex items-center gap-3">
+                   <span className="w-11 h-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center">
+                     <i className="fa-solid fa-location-dot"></i>
+                   </span>
+                   <div>
+                     <p className="text-xs text-blue-100">Localisation</p>
+                     <p className="font-extrabold">{USER_DATA.location}</p>
+                   </div>
+                 </div>
+               </div>
+ 
+               <div className="mt-8 flex gap-3">
+                 <a href={USER_DATA.linkedin} target="_blank" className="w-12 h-12 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center hover:bg-white/20 transition" aria-label="LinkedIn">
+                   <i className="fa-brands fa-linkedin-in text-xl"></i>
+                 </a>
+                 <a href={USER_DATA.github} target="_blank" className="w-12 h-12 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center hover:bg-white/20 transition" aria-label="GitHub">
+                   <i className="fa-brands fa-github text-xl"></i>
+                 </a>
+               </div>
+             </div>
+ 
+             <form onSubmit={handleSubmit} className="rounded-3xl p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+               <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Envoyer un message</h3>
+               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                 Astuce: le bouton ouvre ton client mail avec le message déjà rempli.
+               </p>
+ 
+               <div className="mt-6 space-y-4">
+                 <div>
+                   <label className="text-sm font-bold text-slate-700 dark:text-slate-200">Nom</label>
+                   <input
+                     value={name}
+                     onChange={(e) => setName(e.target.value)}
+                     className="mt-2 w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/50"
+                     placeholder="Votre nom"
+                   />
+                 </div>
+ 
+                 <div>
+                   <label className="text-sm font-bold text-slate-700 dark:text-slate-200">Email</label>
+                   <input
+                     value={email}
+                     onChange={(e) => setEmail(e.target.value)}
+                     className="mt-2 w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/50"
+                     placeholder="vous@exemple.com"
+                     type="email"
+                   />
+                 </div>
+ 
+                 <div>
+                   <label className="text-sm font-bold text-slate-700 dark:text-slate-200">Message</label>
+                   <textarea
+                     value={msg}
+                     onChange={(e) => setMsg(e.target.value)}
+                     className="mt-2 w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/50 min-h-[140px]"
+                     placeholder="Décris brièvement ce que tu veux… (min 10 caractères)"
+                   />
+                 </div>
+               </div>
+ 
+               {status === "err" && (
+                 <div className="mt-4 rounded-2xl p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-200 text-sm font-semibold">
+                   Vérifie les champs : nom (2+), email valide, message (10+).
+                 </div>
+               )}
+ 
+               <button type="submit" className="mt-6 w-full px-6 py-3 rounded-2xl bg-primary text-white font-extrabold hover:opacity-95 transition shadow-glow">
+                 Envoyer <i className="fa-solid fa-paper-plane ml-2"></i>
+               </button>
+ 
+               <a href={mailto} className="mt-3 block text-center text-sm font-extrabold text-slate-700 dark:text-slate-200 hover:text-primary transition">
+                 Ou ouvrir le mail directement <i className="fa-solid fa-arrow-right ml-1 text-xs"></i>
+               </a>
+             </form>
+           </div>
+         </div>
+       </section>
+     );
+   };
+ 
+   // ---------- Footer ----------
+   const Footer = () => (
+     <footer className="py-10 bg-white dark:bg-darker border-t border-slate-200 dark:border-slate-800">
+       <div className="container mx-auto px-6">
+         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+           <p className="text-slate-600 dark:text-slate-400 font-semibold">
+             © {new Date().getFullYear()} <span className="font-extrabold">{USER_DATA.name}</span>. Tous droits réservés.
+           </p>
+           <div className="flex items-center gap-3">
+             <a href="#home" className="px-4 py-2 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-extrabold text-slate-700 dark:text-slate-200 hover:text-primary hover:border-primary transition">
+               Retour en haut <i className="fa-solid fa-arrow-up ml-2 text-xs"></i>
+             </a>
+           </div>
+         </div>
+       </div>
+     </footer>
+   );
+ 
+   // ---------- App ----------
+   const App = () => {
+     const [darkMode, setDarkMode] = useState(false);
+ 
+     useEffect(() => {
+       const saved = localStorage.getItem("theme");
+       if (saved === "dark") setDarkMode(true);
+       else if (saved === "light") setDarkMode(false);
+       else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) setDarkMode(true);
+     }, []);
+ 
+     useEffect(() => {
+       if (darkMode) {
+         document.documentElement.classList.add("dark");
+         localStorage.setItem("theme", "dark");
+       } else {
+         document.documentElement.classList.remove("dark");
+         localStorage.setItem("theme", "light");
+       }
+     }, [darkMode]);
+ 
+     return (
+       <div className="bg-white dark:bg-dark transition-colors duration-300 min-h-screen">
+         <Navbar darkMode={darkMode} toggleDarkMode={() => setDarkMode((v) => !v)} />
+         <Hero />
+         <About />
+         <Services />
+         <Skills />
+         <Projects />
+         <Testimonials />
+         <Contact />
+         <Footer />
+       </div>
+     );
+   };
+ 
+   const root = ReactDOM.createRoot(document.getElementById("root"));
+   root.render(<App />);
+ </script>
 </body>
 </html>
- 
